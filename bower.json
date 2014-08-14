@@ -1,0 +1,22 @@
+{
+  "name": "chrome-vk-videos",
+  "version": "0.1.0",
+  "authors": [
+    "Flammenmensch <maleventum@gmail.com>"
+  ],
+  "description": "Chrome Application to watch videos from vk.com",
+  "main": "scripts/app.js",
+  "keywords": [
+    "vk.com",
+    "chrome"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
