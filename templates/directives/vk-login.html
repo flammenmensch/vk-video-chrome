@@ -1,0 +1,16 @@
+<div class="navbar-right">
+    <button ng-disabled="loading" ng-if="!loggedIn" type="button" class="btn btn-default navbar-btn navbar-right" ng-click="login()">
+        <i class="glyphicon glyphicon-log-in"></i>
+        Войти
+    </button>
+
+    <div ng-if="loggedIn">
+        <p class="navbar-text">
+            Вход выполнен
+        </p>
+        <button ng-disabled="loading" class="btn btn-default navbar-btn" type="button" ng-click="logout()">
+            <i class="glyphicon glyphicon-log-out"></i>
+            Выйти
+        </button>
+    </div>
+</div>
