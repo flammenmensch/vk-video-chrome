@@ -1,0 +1,7 @@
+<div class="thumbnail">
+    <a ng-href="/#/video/{{video.id}}">
+        <img csp-src="{{video.image_medium}}" alt="{{video.title}}">
+        <p>{{video.title | limitTo:30}}</p>
+        <p>{{video.duration | duration}}</p>
+    </a>
+</div>

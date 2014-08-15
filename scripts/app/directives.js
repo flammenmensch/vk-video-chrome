@@ -1,7 +1,7 @@
 (function () {
     "use strict";
 
-    angular.module('vk.directives', [ 'vk.models', 'vk.services' ])
+    angular.module('vk.directives', [ 'vk.models', 'vk.services', 'vk.filters' ])
 
         .directive('vkNotAuthorized', function () {
             return {
@@ -117,6 +117,34 @@
                     };
                 } ]
             }
+        })
+
+        .directive('cspSrc', [ 'imageLoader', function (imageLoader) {
+            return {
+                restrict: 'A',
+                scope: { },
+                priority: 99,
+                link: function (scope, element, attributes) {
+                    imageLoader.load(attributes['cspSrc']).then(function (blob) {
+                        attributes.$set('src', blob);
+                    });
+
+                    scope.$on('$destroy', function () {
+                        imageLoader.unload(attributes['src']);
+                    });
+                }
+            };
+        } ])
+
+        .directive('vkVideoThumbnail', function () {
+            return {
+                restrict: 'E',
+                scope: {
+                    video: '='
+                },
+                replace: true,
+                templateUrl: '/templates/directives/vk-video-thumbnail.html'
+            };
         })
 
         .directive('vkSearchResults', function () {

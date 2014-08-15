@@ -3,6 +3,38 @@
 
     angular.module('vk.services', [ 'vk.util' ])
 
+        .factory('imageLoader', [ '$q', function ($q) {
+            function ImageLoader() {
+
+            }
+
+            ImageLoader.prototype = {
+                load: function (url) {
+                    var deferred = $q.defer();
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', url, true);
+                    xhr.responseType = 'blob';
+
+                    xhr.onload = function (event) {
+                        var src = URL.createObjectURL(this.response);
+
+                        deferred.resolve(src);
+                    };
+
+                    xhr.send();
+
+                    return deferred.promise;
+                },
+
+                unload: function (blob) {
+                    blob && URL.revokeObjectURL(url);
+                }
+            };
+
+            return new ImageLoader();
+        } ])
+
         .factory('tokenStorage', [ '$q', function ($q) {
             function TokenStorage() {
 

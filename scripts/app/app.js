@@ -3,7 +3,7 @@
 
     angular.module('vk', [ 'vk.directives', 'vk.services' ])
 
-        .controller('AppCtrl', [ '$scope', '$timeout', 'vk', 'LoginModel', 'TokenModel', 'UserModel', function ($scope, $timeout, vk, loginModel, tokenModel, userModel) {
+        .controller('AppCtrl', [ '$scope', 'vk', 'LoginModel', 'TokenModel', 'UserModel', function ($scope, vk, loginModel, tokenModel, userModel) {
             $scope.userModel = userModel;
             $scope.tokenModel = tokenModel;
             $scope.loginModel = loginModel;
@@ -18,20 +18,21 @@
 
                 $scope.searching = true;
 
-                $timeout(function () {
-                    vk.searchVideos($scope.tokenModel.token, query).then(function (response) {
+                vk.searchVideos($scope.tokenModel.token, query)
+                    .then(function (response) {
+                        console.log(response);
                         $scope.videos = response;
-                    }).finally(function () {
+                    })
+                    .finally(function () {
                         $scope.searching = false;
                     });
-                }, 3000);
             };
         } ])
 
         .config([ '$compileProvider', function ($compileProvider) {
-            var whitelist = /^\s*(https?|ftp|mailto|chrome-extension):/;
+            var currentImgSrcSanitizationWhitelist = $compileProvider.imgSrcSanitizationWhitelist();
+            var newImgSrcSanitizationWhiteList = currentImgSrcSanitizationWhitelist.toString().slice(0,-1)+'|filesystem:chrome-extension:'+'|blob:chrome-extension%3A'+currentImgSrcSanitizationWhitelist.toString().slice(-1);
 
-            $compileProvider.aHrefSanitizationWhitelist(whitelist);
-            $compileProvider.imgSrcSanitizationWhitelist(whitelist);
+            $compileProvider.imgSrcSanitizationWhitelist(newImgSrcSanitizationWhiteList);
         } ]);
 }());
