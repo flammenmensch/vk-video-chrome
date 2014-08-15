@@ -21,17 +21,40 @@
         </div>
     </nav>
 
-    <div class="container-fluid">
-        <div class="row">
+    <div class="container-fluid" ng-controller="AppCtrl">
+
+        <div class="row" ng-if="!loginModel.loggedIn">
             <div class="col-md-12">
-                <vk-search-form></vk-search-form>
+                <vk-not-authorized></vk-not-authorized>
             </div>
         </div>
-        <div class="row">
+
+        <div class="row" ng-if="loginModel.loggedIn">
             <div class="col-md-12">
-                <vk-search-results></vk-search-results>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <vk-search-form inactive="searching" search-handler="search(query)"></vk-search-form>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="text-center">
+                            <i class="glyphicon glyphicon-time"></i>
+                            Подождите...
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <vk-search-results items="videos"></vk-search-results>
+                    </div>
+                </div>
             </div>
         </div>
+
     </div>
 
     <script type="text/javascript" src="./bower_components/angular/angular.min.js"></script>
@@ -40,6 +63,7 @@
     <script type="text/javascript" src="./scripts/app/util.js"></script>
     <script type="text/javascript" src="./scripts/app/services.js"></script>
     <script type="text/javascript" src="./scripts/app/directives.js"></script>
+    <script type="text/javascript" src="./scripts/app/models.js"></script>
     <script type="text/javascript" src="./scripts/app/app.js"></script>
 </body>
 </html>

@@ -20,7 +20,8 @@
         "https://nglhcdpeimhdkemgnkdidehpbblcangi.chromiumapps.org/*",
         "https://meooeopldeechegdoedahmgjclmmobhl.chromiumapps.org/*",
         "https://oauth.vk.com/*",
-        "https://api.vk.com/*",
+        "https://api.vk.com/method/*",
+        "http://*.vk.me/*",
         "identity",
         "storage"
     ]

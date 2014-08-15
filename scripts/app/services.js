@@ -58,27 +58,39 @@
 
             }
 
-            AuthService.prototype.authorize = function () {
-                var deferred = $q.defer();
+            AuthService.prototype = {
+                authorize: function () {
+                    var deferred = $q.defer();
 
-                var manifest = chrome.runtime.getManifest();
-                var redirectUri = chrome.identity.getRedirectURL('/callback');
-                var url = 'https://oauth.vk.com/authorize?display=page&v=5.24&response_type=token&client_id=' + manifest.oauth2.client_id + '&scope=' + manifest.oauth2.scopes.join(',') + '&redirect_uri=' + redirectUri;
+                    var manifest = chrome.runtime.getManifest();
+                    var redirectUri = chrome.identity.getRedirectURL('/callback');
+                    var url = 'https://oauth.vk.com/authorize?display=page&v=5.24&response_type=token&client_id=' + manifest.oauth2.client_id + '&scope=' + manifest.oauth2.scopes.join(',') + '&redirect_uri=' + redirectUri;
 
-                chrome.identity.launchWebAuthFlow({
-                    url: url,
-                    interactive: true
-                }, function (redirectUri) {
-                    if (chrome.runtime.lastError) {
-                        return deferred.reject(new Error(chrome.runtime.lastError));
-                    }
+                    chrome.identity.launchWebAuthFlow({
+                        url: url,
+                        interactive: true
+                    }, function (redirectUri) {
+                        if (chrome.runtime.lastError) {
+                            return deferred.reject(new Error(chrome.runtime.lastError));
+                        }
 
-                    var params = urlUtil.extractHash(redirectUri);
+                        var params = urlUtil.extractHash(redirectUri);
 
-                    deferred.resolve(params);
-                });
+                        deferred.resolve(params);
+                    });
 
-                return deferred.promise;
+                    return deferred.promise;
+                },
+
+                deauthorize: function (token) {
+                    var deferred = $q.defer();
+
+                    chrome.identity.removeCachedAuthToken({ token: token }, function () {
+                        deferred.resolve(true);
+                    });
+
+                    return deferred.promise;
+                }
             };
 
             return new AuthService();
@@ -98,7 +110,7 @@
 					responseType: 'json'
 				}).success(function (response) {
 					if (response.error) {
-						return deferred.reject(response.data.error);
+                        return deferred.reject(response.error);
 					}
 
 					deferred.resolve(response.response);
@@ -113,6 +125,15 @@
 						user_id: user_id
 					});
 				},
+                getFriends: function (access_token, user_id) {
+                    return makeApiRequest('friends.get', {
+                        access_token: access_token,
+                        user_id: user_id
+                    });
+                },
+                getUserVideos: function (access_token, user_id) {
+
+                },
 				searchVideos: function (access_token, q, offset) {
 					return makeApiRequest('video.search', {
 						access_token: access_token,

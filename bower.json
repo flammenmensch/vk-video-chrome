@@ -26,6 +26,7 @@
     "angular-rx": "~0.0.8",
     "rxjs": "~2.3.3",
     "bootstrap": "~3.2.0",
-    "animate.css": "~3.2.0"
+    "animate.css": "~3.2.0",
+    "todc-bootstrap": "~3.0.2"
   }
 }

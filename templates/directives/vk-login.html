@@ -1,12 +1,12 @@
 <div class="navbar-right">
-    <button ng-disabled="loading" ng-if="!loggedIn" type="button" class="btn btn-default navbar-btn navbar-right" ng-click="login()">
+    <button ng-disabled="loading" ng-if="!loginModel.loggedIn" type="button" class="btn btn-default navbar-btn navbar-right" ng-click="login()">
         <i class="glyphicon glyphicon-log-in"></i>
         Войти
     </button>
 
-    <div ng-if="loggedIn">
+    <div ng-if="loginModel.loggedIn">
         <p class="navbar-text">
-            {{username}}
+            {{userModel.name}}
         </p>
 
         <button ng-disabled="loading" class="btn btn-default navbar-btn" type="button" ng-click="logout()">
