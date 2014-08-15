@@ -18,6 +18,7 @@
     },
     "permissions": [
         "https://nglhcdpeimhdkemgnkdidehpbblcangi.chromiumapps.org/*",
+        "https://meooeopldeechegdoedahmgjclmmobhl.chromiumapps.org/*",
         "https://oauth.vk.com/*",
         "https://api.vk.com/*",
         "identity",

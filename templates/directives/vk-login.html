@@ -6,8 +6,9 @@
 
     <div ng-if="loggedIn">
         <p class="navbar-text">
-            Вход выполнен
+            {{username}}
         </p>
+
         <button ng-disabled="loading" class="btn btn-default navbar-btn" type="button" ng-click="logout()">
             <i class="glyphicon glyphicon-log-out"></i>
             Выйти

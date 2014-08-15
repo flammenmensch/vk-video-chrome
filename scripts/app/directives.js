@@ -9,16 +9,23 @@
                 scope: { },
                 replace: true,
                 templateUrl: '/templates/directives/vk-login.html',
-                controller: [ '$scope', 'tokenStorage', 'authService', function ($scope, tokenStorage, authService) {
+                controller: [ '$scope', 'tokenStorage', 'authService', 'vk', function ($scope, tokenStorage, authService, vk) {
                     $scope.loggedIn = false;
                     $scope.loading = false;
+					$scope.username = '';
 
                     $scope.login = function () {
                         $scope.loading = true;
                         authService.authorize().then(function (data) {
                             tokenStorage.set(data).then(function () {
                                 $scope.loggedIn = true;
-                                $scope.loading = false;
+
+								vk.getUserInfo(data.user_id).then(function (data) {
+									var user = data[0];
+
+									$scope.username = user.first_name + ' ' + user.last_name;
+									$scope.loading = false;
+								});
                             });
                         });
                     };
@@ -27,6 +34,7 @@
                         tokenStorage.clear().then(function () {
                             $scope.loggedIn = false;
                             $scope.loading = false;
+							$scope.username = '';
                         });
                     };
                 } ]

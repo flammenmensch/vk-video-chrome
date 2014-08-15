@@ -84,7 +84,48 @@
             return new AuthService();
         } ])
 
-        .service('vk', [ '$http', function ($http) {
+        .factory('vk', [ '$q', '$http', function ($q, $http) {
+			function VK() { }
 
+			var makeApiRequest = function (method, params) {
+				var deferred = $q.defer();
+
+				$http({
+					method: 'GET',
+					url: 'https://api.vk.com/method/' + method,
+					params: params || { },
+					cache: true,
+					responseType: 'json'
+				}).success(function (response) {
+					if (response.error) {
+						return deferred.reject(response.data.error);
+					}
+
+					deferred.resolve(response.response);
+				});
+
+				return deferred.promise;
+			};
+
+			VK.prototype = {
+				getUserInfo: function (user_id) {
+					return makeApiRequest('users.get', {
+						user_id: user_id
+					});
+				},
+				searchVideos: function (access_token, q, offset) {
+					return makeApiRequest('video.search', {
+						access_token: access_token,
+						q: q,
+						adult: 1,
+						filters: 'long,mp4',
+						sort: '1',
+						count: 50,
+						offset: offset || 0
+					});
+				}
+			};
+
+			return new VK();
         } ]);
 } ());
